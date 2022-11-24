@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Rick and morty</string>
     <string name="error_loading_data">Error: data loading</string>
+    <string name="retry_button_text">Retry</string>
+    <string name="empty_list_text">The list is empty</string>
+    <string name="last_location_title">Last known location:</string>
 </resources>
