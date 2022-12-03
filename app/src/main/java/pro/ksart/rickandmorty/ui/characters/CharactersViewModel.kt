@@ -26,7 +26,7 @@ class CharactersViewModel @Inject constructor(
     getCharacters: GetCharactersUseCase,
 ) : ViewModel() {
 
-    private val _uiEvent = MutableSharedFlow<UiEvent<CharacterRam>>()
+    private val _uiEvent = MutableSharedFlow<UiEvent<Int>>()
     val uiEvent = _uiEvent.asSharedFlow()
 
     val uiState: StateFlow<UiState<PagingData<CharacterRam>>> =
@@ -50,7 +50,7 @@ class CharactersViewModel @Inject constructor(
                 initialValue = UiState.Loading
             )
 
-    val uiAction: (UiAction<CharacterRam>) -> Unit = { action ->
+    val uiAction: (UiAction<Int>) -> Unit = { action ->
         viewModelScope.launch {
             when (action) {
                 is UiAction.Click -> _uiEvent.emit(UiEvent.Success(action.data))

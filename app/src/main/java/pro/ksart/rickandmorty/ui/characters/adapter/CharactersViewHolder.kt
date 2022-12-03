@@ -2,23 +2,27 @@ package pro.ksart.rickandmorty.ui.characters.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import pro.ksart.rickandmorty.R
 import pro.ksart.rickandmorty.data.entity.CharacterRam
+import pro.ksart.rickandmorty.data.entity.UiAction
 import pro.ksart.rickandmorty.databinding.ItemCharacterBinding
 
 class CharactersViewHolder(
     private val binding: ItemCharacterBinding,
-    private val onClick: (CharacterRam, ImageView) -> Unit,
+    private val onClick: (UiAction<Int>) -> Unit,
 ) : RecyclerView.ViewHolder(binding.root) {
 
     var item: CharacterRam? = null
         private set
 
     init {
-        binding.run { root.setOnClickListener { item?.let { onClick(it, imageView) } } }
+        binding.run {
+            root.setOnClickListener {
+                item?.let { onClick(UiAction.Click(it.id)) }
+            }
+        }
     }
 
     fun bind(item: CharacterRam) {
@@ -41,7 +45,7 @@ class CharactersViewHolder(
     companion object {
         fun create(
             parent: ViewGroup,
-            onClick: (CharacterRam, ImageView) -> Unit,
+            onClick: (UiAction<Int>) -> Unit,
         ) = ItemCharacterBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,

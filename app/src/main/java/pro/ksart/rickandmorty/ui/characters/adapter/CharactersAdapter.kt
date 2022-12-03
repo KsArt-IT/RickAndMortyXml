@@ -1,12 +1,12 @@
 package pro.ksart.rickandmorty.ui.characters.adapter
 
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.paging.PagingDataAdapter
 import pro.ksart.rickandmorty.data.entity.CharacterRam
+import pro.ksart.rickandmorty.data.entity.UiAction
 
 class CharactersAdapter(
-    private val onClick: (CharacterRam, ImageView) -> Unit
+    private val onClick: (UiAction<Int>) -> Unit
 ) : PagingDataAdapter<CharacterRam, CharactersViewHolder>(CharactersDiffCallback()) {
 
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {

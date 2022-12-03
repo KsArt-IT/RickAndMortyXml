@@ -5,8 +5,7 @@
     <item
         android:id="@+id/action_night"
         android:icon="@drawable/ic_night"
-        android:iconTint="?attr/colorOnPrimary"
-        android:title=""
+        android:title="@string/theme_light_dark"
         app:iconTint="?attr/colorOnPrimary"
         app:showAsAction="always" />
 

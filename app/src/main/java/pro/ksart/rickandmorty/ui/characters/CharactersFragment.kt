@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,6 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import pro.ksart.rickandmorty.R
-import pro.ksart.rickandmorty.data.entity.CharacterRam
 import pro.ksart.rickandmorty.data.entity.UiEvent
 import pro.ksart.rickandmorty.data.entity.UiState
 import pro.ksart.rickandmorty.databinding.FragmentCharactersBinding
@@ -29,7 +28,7 @@ import pro.ksart.rickandmorty.ui.characters.adapter.CharactersLoadStateAdapter
 import pro.ksart.rickandmorty.ui.toast
 
 @AndroidEntryPoint
-class CharactersFragment : Fragment(R.layout.fragment_characters) {
+class CharactersFragment : Fragment() {
 
     private var _binding: FragmentCharactersBinding? = null
     private val binding get() = checkNotNull(_binding)
@@ -71,7 +70,7 @@ class CharactersFragment : Fragment(R.layout.fragment_characters) {
     }
 
     private fun initAdapter() {
-        _charactersAdapter = CharactersAdapter(::showCharacterDetail)
+        _charactersAdapter = CharactersAdapter(viewModel::uiAction.invoke())
         binding.recycler.run {
             adapter = charactersAdapter.withLoadStateHeaderAndFooter(
                 header = CharactersLoadStateAdapter { charactersAdapter.retry() },
@@ -100,10 +99,7 @@ class CharactersFragment : Fragment(R.layout.fragment_characters) {
                 launch {
                     viewModel.uiState.collectLatest { state ->
                         when (state) {
-                            is UiState.Success -> {
-                                // в адаптер
-                                charactersAdapter.submitData(state.data)
-                            }
+                            is UiState.Success -> charactersAdapter.submitData(state.data)
                             is UiState.Loading -> {}
                             is UiState.Error -> {}
                         }
@@ -112,7 +108,7 @@ class CharactersFragment : Fragment(R.layout.fragment_characters) {
                 launch {
                     viewModel.uiEvent.collectLatest { event ->
                         when (event) {
-                            is UiEvent.Success -> {}
+                            is UiEvent.Success -> showCharacterDetail(event.data)
                             is UiEvent.Toast -> toast(event.stringId)
                             is UiEvent.Error -> toast(event.message)
                         }
@@ -139,6 +135,9 @@ class CharactersFragment : Fragment(R.layout.fragment_characters) {
         }
     }
 
-    private fun showCharacterDetail(character: CharacterRam, imageView: ImageView) {
+    private fun showCharacterDetail(id: Int) {
+        val action = CharactersFragmentDirections
+            .actionCharactersFragmentToCharacterDetailFragment(id)
+        findNavController().navigate(action, navOptions)
     }
 }

@@ -14,5 +14,5 @@ interface RepositoryModule {
 
     @Binds
     @ViewModelScoped
-    fun provideMoviesRepository(impl: CharacterRepositoryImpl): CharacterRepository
+    fun provideCharacterRepository(impl: CharacterRepositoryImpl): CharacterRepository
 }

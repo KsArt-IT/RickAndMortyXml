@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferencesHelper.setDarkTheme()
+        preferencesHelper.setTheme()
 
         setContentView(ActivityMainBinding.inflate(layoutInflater).also { binding = it }.root)
         initAppBar()

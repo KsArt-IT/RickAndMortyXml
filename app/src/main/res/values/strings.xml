@@ -4,4 +4,6 @@
     <string name="retry_button_text">Retry</string>
     <string name="empty_list_text">The list is empty</string>
     <string name="last_location_title">Last known location:</string>
+    <string name="theme_light_dark">Light/Dark</string>
+    <string name="character_image_description">Character</string>
 </resources>
